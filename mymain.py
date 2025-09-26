@@ -1,50 +1,3 @@
-# from fastapi import FastAPI
-# from uuid import UUID
-# from pydantic import BaseModel, Field
-# # from typing import List, Optional
-# # import httpx
-
-
-# app = FastAPI(
-#     title="AI Programming Riddle Game",
-#     description="A game where AI generates programming riddles for you to solve!",
-#     version="1.0.0",
-# )
-
-# # print("FastAPI Riddle Game Server Starting Up...")
-
-
-# class Riddle(BaseModel):
-#     question: str = Field(max_length=255)
-#     answer: str = Field(max_length=255)
-
-
-# class AnswerSubmission(BaseModel):
-#     session_id: UUID
-#     answer: str = Field(max_length=255)
-
-
-# class GameSession(BaseModel):
-#     session_id: UUID
-#     # riddles: List[Riddle]
-#     current_riddle_index: int = 0
-#     score: int = 0
-#     active: bool = True
-
-
-# @app.get("/")
-# def session():
-#     return {"message": "Welcome to the AI Programming Riddle Game!"}
-
-
-# @app.post("/start_session", response_model=GameSession)
-# def start_session():
-#     # Logic to create a new game session
-#     pass
-
-
-# app/main.py
-
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 import uuid
@@ -90,14 +43,7 @@ class EndResponse(BaseModel):
     message: str
 
 
-# ----------------------------
-# Game Sessions (in-memory)
-# ----------------------------
 game_sessions: dict = {}
-
-# ----------------------------
-# AI Riddle Generator (via httpx)
-# ----------------------------
 
 
 async def generate_riddle() -> Riddle:
@@ -141,9 +87,9 @@ The 'answer' must be only 1-3 words. No explanation, no extra text.
     return Riddle(**riddle_data)
 
 
-# ----------------------------
-# API Endpoints
-# ----------------------------
+@app.get("/all_your_answers")
+async def root():
+    return {"all_your_answers": game_sessions}
 
 
 @app.post("/start", response_model=StartResponse)
