@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
-    raise RuntimeError("❌ OPENAI_API_KEY not found in .env")
+    raise RuntimeError("OPENAI_API_KEY not found in .env")
 
 app = FastAPI(title="AI Programming Riddle Game")
 
@@ -118,9 +118,10 @@ async def submit_answer(req: AnswerRequest):
 
     if not session or not session["active"]:
         raise HTTPException(status_code=400, detail="Invalid or inactive session.")
-
-    correct_answer = session["current_riddle"]["answer"].strip().lower()
     user_answer = req.answer.strip().lower()
+    correct_answer = session["current_riddle"]["answer"].strip().lower()
+    current_riddle = session["current_riddle"]  # come back here
+    current_riddle["user_answer"] = user_answer
 
     if user_answer == correct_answer:
         session["score"] += 1
