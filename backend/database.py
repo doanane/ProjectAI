@@ -1,0 +1,26 @@
+import os
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+from dotenv import load_dotenv
+
+load_dotenv()
+
+# Use your database URL
+URL_DATABASE = os.getenv(
+    "DATABASE_URL",
+    "postgresql+psycopg2://postgres:S%400570263170s@localhost:5432/AI_Riddle_Generator",
+)
+
+engine = create_engine(URL_DATABASE)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+Base = declarative_base()
+
+
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()

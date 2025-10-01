@@ -1,0 +1,28 @@
+frontend/
+├── src/
+│   ├── components/
+│   │   ├── Auth/
+│   │   │   ├── Login.jsx
+│   │   │   ├── Register.jsx
+│   │   │   └── AuthModal.jsx
+│   │   ├── Game/
+│   │   │   ├── GameBoard.jsx
+│   │   │   ├── StatsPanel.jsx
+│   │   │   └── History.jsx
+│   │   ├── Layout/
+│   │   │   ├── Header.jsx
+│   │   │   └── Navigation.jsx
+│   │   └── UI/
+│   │       ├── Button.jsx
+│   │       ├── Modal.jsx
+│   │       └── Loader.jsx
+│   ├── contexts/
+│   │   └── AuthContext.jsx
+│   ├── hooks/
+│   │   ├── useAuth.js
+│   │   └── useGame.js
+│   ├── services/
+│   │   └── api.js
+│   ├── App.jsx
+│   ├── App.css
+│   └── main.jsx
