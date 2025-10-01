@@ -10,11 +10,9 @@ from dotenv import load_dotenv
 
 from database import get_db
 from models import User
-from schemas import TokenData
 
 load_dotenv()
 
-# Security configuration
 SECRET_KEY = os.getenv(
     "SECRET_KEY", "afa8ab74846e4d41d65ac3d8fed16ffbe4250663bb09555fdf594dd01048d2fd"
 )
@@ -38,7 +36,7 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     if expires_delta:
         expire = datetime.utcnow() + expires_delta
     else:
-        expire = datetime.utcnow() + timedelta(minutes=15)
+        expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     to_encode.update({"exp": expire})
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
     return encoded_jwt
@@ -57,14 +55,13 @@ def verify_token(
         payload = jwt.decode(
             credentials.credentials, SECRET_KEY, algorithms=[ALGORITHM]
         )
-        user_id: int = payload.get("sub")
+        user_id: str = payload.get("sub")
         if user_id is None:
             raise credentials_exception
-        token_data = TokenData(user_id=user_id)
     except JWTError:
         raise credentials_exception
 
-    user = db.query(User).filter(User.id == token_data.user_id).first()
+    user = db.query(User).filter(User.id == int(user_id)).first()
     if user is None:
         raise credentials_exception
     return user

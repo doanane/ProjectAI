@@ -1,11 +1,11 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
 from typing import Optional, List
 from datetime import datetime
 
 
 # Auth Schemas
 class UserBase(BaseModel):
-    email: EmailStr
+    email: str
     username: Optional[str] = None
     full_name: Optional[str] = None
 
@@ -15,7 +15,7 @@ class UserCreate(UserBase):
 
 
 class UserLogin(BaseModel):
-    email: EmailStr
+    email: str
     password: str
 
 
@@ -33,10 +33,6 @@ class Token(BaseModel):
     access_token: str
     token_type: str
     user: UserResponse
-
-
-class TokenData(BaseModel):
-    user_id: Optional[int] = None
 
 
 # Game Schemas
@@ -95,10 +91,3 @@ class GameHistoryResponse(BaseModel):
     correct_answers: int
     success_rate: float
     ended_at: datetime
-
-
-# OAuth Schemas
-class OAuthResponse(BaseModel):
-    access_token: str
-    token_type: str
-    user: UserResponse

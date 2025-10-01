@@ -6,13 +6,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# Use your database URL
-URL_DATABASE = os.getenv(
-    "DATABASE_URL",
-    "postgresql+psycopg2://postgres:S%400570263170s@localhost:5432/AI_Riddle_Generator",
+DATABASE_URL = (
+    "postgresql+psycopg2://postgres:S%400570263170s@localhost:5432/AI_Riddle_Generator"
 )
 
-engine = create_engine(URL_DATABASE)
+engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
